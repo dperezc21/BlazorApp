@@ -39,7 +39,6 @@ artifacts/
 # wwwroot generated files
 wwwroot/dist/
 wwwroot/node_modules/
-wwwroot/lib/
 
 # Node modules (if using npm/yarn)
 node_modules/
