@@ -1,0 +1,43 @@
+@using BlazorApp.Components.Pages
+
+@rendermode InteractiveServer
+
+<div class="horizontal-options">
+<button class="option-btn @(ButtonSelected == AllOption ? OptionSelectedClass : OptionClassEmpty)" @onclick="(() => EnviarDato(AllOption))">
+        <svg width="18" height="18" viewBox="0 0 16 16" style="vertical-align:middle;">
+            <rect x="2" y="3" width="12" height="2" rx="1" fill="#007bff"/>
+            <rect x="2" y="7" width="12" height="2" rx="1" fill="#007bff"/>
+            <rect x="2" y="11" width="12" height="2" rx="1" fill="#007bff"/>
+        </svg>
+        Todos
+    </button>
+    <button class="option-btn @(ButtonSelected == ActiveOption ? OptionSelectedClass : OptionClassEmpty)" @onclick="(() => EnviarDato(ActiveOption))">
+       <svg width="18" height="18" viewBox="0 0 16 16" style="vertical-align:middle;">
+            <circle cx="8" cy="8" r="8" fill="#28a745"/>
+            <path d="M11.03 6.97a.75.75 0 0 0-1.06-1.06L7 8.94 6.03 7.97a.75.75 0 1 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.06 0l3-3z" fill="#fff"/>
+        </svg>
+        Activos</button>
+    <button class="option-btn @(ButtonSelected == InactiveOption ? OptionSelectedClass : OptionClassEmpty)" @onclick="(() => EnviarDato(InactiveOption))">
+        <svg width="18" height="18" viewBox="0 0 16 16" style="vertical-align:middle;">
+            <circle cx="8" cy="8" r="8" fill="#dc3545"/>
+            <path d="M5.5 5.5l5 5m0-5l-5 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Inactivos</button>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnEnviar { get; set; }
+    private string ButtonSelected { get; set; } = "All";
+    protected string AllOption { get; } = "All";
+    protected string ActiveOption { get; } = "Active";
+    protected string InactiveOption { get; } = "Inactive";
+    protected string OptionSelectedClass = "option-selected";
+    protected string OptionClassEmpty = "";
+
+    private async Task EnviarDato(string selected)
+    {
+        ButtonSelected = selected;
+        await OnEnviar.InvokeAsync(selected);
+    }
+}

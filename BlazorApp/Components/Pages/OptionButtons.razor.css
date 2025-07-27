@@ -1,0 +1,27 @@
+
+.horizontal-options {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    justify-content: flex-start;
+}
+
+.option-btn {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    border: 1px solid #edeaea;
+    cursor: pointer;
+    background: none;
+    color: #535050;
+}
+.option-btn:hover {
+    border: 1px solid #c7c3c3;
+    border-color: #98c8fc;
+}
+
+.option-selected {
+    background-color: #d9dcdf;
+    color: black;
+    border: 1px solid #98c8fc;
+    box-shadow: 0 0 5px rgba(152, 200, 252, 0.5);
+}
