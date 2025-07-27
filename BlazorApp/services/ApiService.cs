@@ -2,7 +2,11 @@ using System.Net.Http.Headers;
 
 public class ApiService
    {
-      
+      private readonly IConfiguration _config;
+    public ApiService(IConfiguration config)
+    {
+        _config = config;
+    }
 
     public async Task<List<T>> GetItemsAsync<T>(string url)
     {
@@ -11,8 +15,8 @@ public class ApiService
             ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
         };
         using var http = new HttpClient(handler);
-
-        http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "ae8bad44-7348-11ee-b962-0242ac120002");
+        var token = _config["ApiToken"];
+        http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         var response = await http.GetFromJsonAsync<List<T>>(url);
         return response ?? new List<T>();
     }

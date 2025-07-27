@@ -29,11 +29,16 @@
 }
 
 @code {
-     private List<InventoryTransaction> items = [];
-        
-    private string url = "https://mainserver.ziursoftware.com/Ziur.API/basedatos_01/ZiurServiceRest.svc/api/DocumentosFillsCombos";
+    private List<InventoryTransaction> items = [];
+    private readonly IConfiguration _config;
+    public Home(IConfiguration config)
+    {
+        _config = config;
+    }
+    private string url = "";
     private async Task LoadData()
     {
+        url = _config["ApiURL"] ?? "";
         items = await ApiService.GetItemsAsync<InventoryTransaction>(url);
     }
 
