@@ -7,7 +7,6 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddScoped<ApiService>();
-builder.Services.AddScoped<InventoryTransaction>();
 
 var app = builder.Build();
 
