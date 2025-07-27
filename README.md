@@ -1,7 +1,9 @@
 ## Blazor Web App
 
-Web application built with Blazor to retrieve information from an API and
-display it on a responsive grid.
+Web application built with Blazor to retrieve information from an ziursoftware API,  
+using token to authentication and get data and display it on a responsive grid.
+
+![alt text](image-1.png)
 
 #### Execute:
 You can configure UserSecret with Blazor by accessing the project root 
