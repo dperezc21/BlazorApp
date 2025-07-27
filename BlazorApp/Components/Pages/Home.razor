@@ -45,19 +45,13 @@
 @code {
     private List<InventoryTransaction> items = [];
     private List<InventoryTransaction> itemsFiltered = [];
-    private readonly IConfiguration _config;
     private string errorMessage = string.Empty;
     private bool loadingData = true;
-    public Home(IConfiguration config)
-    {
-        _config = config;
-    }
 
     private async Task LoadData()
     {
         try {
-             var url = _config["ApiURL"] ?? "";
-            items = await ApiService.GetItemsAsync<InventoryTransaction>(url);
+            items = await ApiService.GetItemsAsync<InventoryTransaction>();
             itemsFiltered = items;
         } catch(HttpRequestException ex){ 
             Console.WriteLine($"Error HTTP: {ex.Message}");
@@ -66,14 +60,12 @@
             Console.WriteLine($"Error general: {ex.Message}");
             errorMessage = "Ocurrió un error inesperado.";
         }
-       
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await Task.Delay(1);
             await LoadData(); 
             loadingData = false;
             StateHasChanged();
