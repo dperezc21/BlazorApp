@@ -6,17 +6,68 @@
 
 <h1>Hello, world!</h1>
 
-  @if (items != null)
-   {
-       <ul>
-           @foreach (var item in items)
-           {
-               <li>@item.Codigo</li>
-                <li>@item.Descripcion</li>
-                 <li>@item.VActiva</li>
-           }
-       </ul>
-   }
+@if (items != null)
+{
+    <div class="grid-container">
+        @foreach (var item in items)
+        {
+            <div class="grid-item">
+                <strong>Codigo: @item.Codigo</strong><br />
+                <div class="description">@item.Descripcion</div><br />
+            
+                @if(item.VActiva)
+                {
+                    <span class="text-status text-success">Activo</span>
+                }
+                else
+                {
+                    <span class="text-status text-danger">Inactivo</span>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+   
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    .grid-item {
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 8px;
+        background: #fafafa;
+    }
+
+    .description {
+        font-style: italic;
+        color: #666;
+        padding: 0.2rem 0;
+    }
+
+    .text-status {
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    .text-success {
+        color: green;
+        background-color: #d4edda;
+    }
+
+    .text-danger {
+        color: red;
+        background-color: #f8d7da;
+    }
+</style>
 
 @code {
      private List<InventoryTransaction> items = [];
