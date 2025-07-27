@@ -34,9 +34,12 @@
 @if(errorMessage != string.Empty) {
     <div class="alert alert-danger">@errorMessage</div>
 } else 
-@if (itemsFiltered.Count == 0)
+@if (itemsFiltered.Count == 0 && !loadingData)
 {
     <p>No hay elementos para mostrar.</p>
+} else if (loadingData)
+{
+    <p>Cargando datos...</p>
 }
 
 @code {
@@ -45,6 +48,7 @@
     private readonly IConfiguration _config;
     private string optionSelected = "All";
     private string errorMessage = string.Empty;
+    private bool loadingData = true;
     public Home(IConfiguration config)
     {
         _config = config;
@@ -67,10 +71,16 @@
        
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await LoadData();
-    }
+        if (firstRender)
+        {
+            await Task.Delay(1);
+            await LoadData(); 
+            loadingData = false;
+            StateHasChanged();
+        }
+}
 
     public void SetOption(string option)
     {
