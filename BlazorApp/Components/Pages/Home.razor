@@ -31,11 +31,20 @@
     </div>
 }
 
+@if(errorMessage != string.Empty) {
+    <div class="alert alert-danger">@errorMessage</div>
+} else 
+@if (itemsFiltered.Count == 0)
+{
+    <p>No hay elementos para mostrar.</p>
+}
+
 @code {
     private List<InventoryTransaction> items = [];
     private List<InventoryTransaction> itemsFiltered = [];
     private readonly IConfiguration _config;
     private string optionSelected = "All";
+    private string errorMessage = string.Empty;
     public Home(IConfiguration config)
     {
         _config = config;
@@ -43,10 +52,19 @@
 
     private async Task LoadData()
     {
-        var url = _config["ApiURL"] ?? "";
-        items = await ApiService.GetItemsAsync<InventoryTransaction>(url);
-        itemsFiltered = items;
-        SetOption("All"); // Set initial option to show all items
+        try {
+             var url = _config["ApiURL"] ?? "";
+            items = await ApiService.GetItemsAsync<InventoryTransaction>(url);
+            itemsFiltered = items;
+            SetOption("All"); // Set initial option to show all items
+        } catch(HttpRequestException ex){ 
+            Console.WriteLine($"Error HTTP: {ex.Message}");
+            errorMessage = "No se pudo obtener la información del servidor.";
+        }catch (Exception ex) {
+            Console.WriteLine($"Error general: {ex.Message}");
+            errorMessage = "Ocurrió un error inesperado.";
+        }
+       
     }
 
     protected override async Task OnInitializedAsync()
