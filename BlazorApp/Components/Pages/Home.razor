@@ -46,7 +46,6 @@
     private List<InventoryTransaction> items = [];
     private List<InventoryTransaction> itemsFiltered = [];
     private readonly IConfiguration _config;
-    private string optionSelected = "All";
     private string errorMessage = string.Empty;
     private bool loadingData = true;
     public Home(IConfiguration config)
@@ -60,7 +59,6 @@
              var url = _config["ApiURL"] ?? "";
             items = await ApiService.GetItemsAsync<InventoryTransaction>(url);
             itemsFiltered = items;
-            SetOption("All"); // Set initial option to show all items
         } catch(HttpRequestException ex){ 
             Console.WriteLine($"Error HTTP: {ex.Message}");
             errorMessage = "No se pudo obtener la información del servidor.";
@@ -80,13 +78,12 @@
             loadingData = false;
             StateHasChanged();
         }
-}
+    }
 
     public void SetOption(string option)
     {
-        optionSelected = option;
-        if (option == "All") itemsFiltered = items; // Show all items
-        else if (option == "Active") itemsFiltered = items.Where(i => i.VActiva).ToList(); // Filter active items
-        else if (option == "Inactive") itemsFiltered = items.Where(i => !i.VActiva).ToList(); // Filter inactive items
+        if (option == OptionStatus.All.ToString()) itemsFiltered = items; // Show all items
+        else if (option == OptionStatus.Active.ToString()) itemsFiltered = items.Where(i => i.VActiva).ToList(); // Filter active items
+        else if (option == OptionStatus.Inactive.ToString()) itemsFiltered = items.Where(i => !i.VActiva).ToList(); // Filter inactive items
     }
 }
