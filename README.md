@@ -1,4 +1,4 @@
-## Blazor Web Api
+## Blazor Web App
 
 Web application built with Blazor to retrieve information from an API and
 display it on a responsive grid.
